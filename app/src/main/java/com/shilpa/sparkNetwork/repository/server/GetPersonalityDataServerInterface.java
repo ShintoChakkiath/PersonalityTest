@@ -7,6 +7,5 @@ import com.shilpa.sparkNetwork.repository.model.SparkNetworkData;
 import java.util.List;
 
 public interface GetPersonalityDataServerInterface {
-   // LiveData<List<String>> getCategories();
     LiveData<SparkNetworkData> getSparkNetworkData();
 }

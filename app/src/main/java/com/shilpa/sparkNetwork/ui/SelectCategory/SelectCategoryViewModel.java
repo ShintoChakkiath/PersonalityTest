@@ -10,7 +10,7 @@ import com.shilpa.sparkNetwork.repository.server.GetPersonalityDataServerAPI;
 
 public class SelectCategoryViewModel extends AndroidViewModel {
 
-    GetPersonalityDataServerAPI api;
+    private GetPersonalityDataServerAPI api;
 
     public SelectCategoryViewModel(@NonNull Application application, GetPersonalityDataServerAPI mapi) {
         super(application);

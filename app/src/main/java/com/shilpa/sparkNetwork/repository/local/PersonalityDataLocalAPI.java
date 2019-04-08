@@ -23,7 +23,6 @@ public class PersonalityDataLocalAPI {
         databaseExecutor = Executors.newSingleThreadExecutor();
     }
 
-
     public void saveOptionToDatabase(final PersonalityData personalityData) {
 
         Runnable runnable = new Runnable() {
@@ -36,12 +35,12 @@ public class PersonalityDataLocalAPI {
     }
 
     public LiveData<List<PersonalityData>> retrievePersonalityDataFromDatabase() {
-       Runnable runnable = new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 List<PersonalityData> mPersonalityDataList = mPersonalityDataDao.getPersonalityData();
 
-                if(mPersonalityDataList!=null) {
+                if (mPersonalityDataList != null) {
                     mRetrievedList.postValue(mPersonalityDataList);
                 }
             }
@@ -51,7 +50,6 @@ public class PersonalityDataLocalAPI {
         return mRetrievedList;
 
     }
-
 
 
 }

@@ -1,6 +1,5 @@
 package com.shilpa.sparkNetwork.ui.QuestionsList;
 
-import android.app.Fragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
@@ -9,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.shilpa.sparkNetwork.R;
 import com.shilpa.sparkNetwork.repository.model.Question;
@@ -18,14 +16,13 @@ import com.shilpa.sparkNetwork.repository.model.SparkNetworkData;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionsListActivity extends AppCompatActivity{
+public class QuestionsListActivity extends AppCompatActivity {
 
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
     private QuestionsPageAdapter questionsPageAdapter;
     private QuestionListViewModel mViewModel;
     private QuestionListViewModelFactory questionListViewModelFactory;
-    private String  category = null;
-    private Fragment fragment;
+    private String category = null;
     int position;
 
     @Override
@@ -37,9 +34,7 @@ public class QuestionsListActivity extends AppCompatActivity{
         init();
 
         category = getIntent().getExtras().getString("CategoryName");
-
         mViewPager = findViewById(R.id.question_list_view_pager);
-
 
         questionListViewModelFactory = new QuestionListViewModelFactory(getApplication());
         mViewModel = ViewModelProviders.of(QuestionsListActivity.this, questionListViewModelFactory).get(QuestionListViewModel.class);
@@ -48,8 +43,8 @@ public class QuestionsListActivity extends AppCompatActivity{
             @Override
             public void onChanged(@Nullable SparkNetworkData sparkNetworkData) {
 
-                if (sparkNetworkData.getQuestions().size()>0)
-                    loadQuestions(sparkNetworkData.getQuestions(),position);
+                if (sparkNetworkData.getQuestions().size() > 0)
+                    loadQuestions(sparkNetworkData.getQuestions(), position);
 
             }
         });
@@ -68,35 +63,29 @@ public class QuestionsListActivity extends AppCompatActivity{
     }
 
     private void init() {
-
         Toolbar actionbar = findViewById(R.id.toolbar);
         setSupportActionBar(actionbar);
         actionbar.setTitle(R.string.app_name);
         actionbar.setTitleTextColor(Color.WHITE);
-
     }
 
     private void loadQuestions(List<Question> questions, int position) {
-
         List<Question> categorisedQuestions = new ArrayList<Question>();
-
-        for(Question question : questions)
-        {
-            if(category.equals(question.getCategory()))
-            {
-              categorisedQuestions.add(question);
+        for (Question question : questions) {
+            if (category.equals(question.getCategory())) {
+                categorisedQuestions.add(question);
             }
         }
-
-        questionsPageAdapter = new QuestionsPageAdapter(getSupportFragmentManager(),categorisedQuestions.size()
-                ,categorisedQuestions);
-          mViewPager.setAdapter(questionsPageAdapter);
-          Log.e("Hello", String.valueOf(position));
+        questionsPageAdapter = new QuestionsPageAdapter(getSupportFragmentManager(), categorisedQuestions.size()
+                , categorisedQuestions);
+        mViewPager.setAdapter(questionsPageAdapter);
         mViewPager.setCurrentItem(position);
     }
 
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
 
 

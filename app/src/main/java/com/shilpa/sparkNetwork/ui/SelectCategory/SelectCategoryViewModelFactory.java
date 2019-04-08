@@ -20,7 +20,7 @@ public class SelectCategoryViewModelFactory implements ViewModelProvider.Factory
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(SelectCategoryViewModel.class)) {
-            return (T) new SelectCategoryViewModel(mApp,mApi);
+            return (T) new SelectCategoryViewModel(mApp, mApi);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

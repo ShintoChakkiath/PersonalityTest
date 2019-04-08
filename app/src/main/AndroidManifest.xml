@@ -27,7 +27,7 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <activity android:name=".ui.SavedPersonalityDataList" />
+        <activity android:name=".ui.SavedPersonalityDataActivity" />
     </application>
 
 </manifest>

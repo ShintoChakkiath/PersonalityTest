@@ -17,18 +17,15 @@ import java.util.List;
 
 public class SelectCategoryAdapter extends RecyclerView.Adapter<SelectCategoryAdapter.CategoryName> {
 
-    Context context;
-    List<String> categoryNamelist;
-    List<Question> questionList;
-    String categoryName;
-
+    private Context context;
+    private List<String> categoryNamelist;
+    private List<Question> questionList;
+    private String categoryName;
 
     public SelectCategoryAdapter(Context context, List<String> categoryList, List<Question> questionList) {
-
         this.context = context;
         this.categoryNamelist = categoryList;
         this.questionList = questionList;
-
     }
 
     @NonNull

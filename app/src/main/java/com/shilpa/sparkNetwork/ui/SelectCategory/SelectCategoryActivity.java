@@ -13,14 +13,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.shilpa.sparkNetwork.R;
 import com.shilpa.sparkNetwork.repository.local.PersonalityData;
 import com.shilpa.sparkNetwork.repository.model.Question;
 import com.shilpa.sparkNetwork.repository.model.SparkNetworkData;
 import com.shilpa.sparkNetwork.repository.server.GetPersonalityDataServerAPI;
-import com.shilpa.sparkNetwork.ui.SavedPersonalityDataList;
+import com.shilpa.sparkNetwork.ui.SavedPersonalityDataActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public class SelectCategoryActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.select_category_rv);
         mApi = new GetPersonalityDataServerAPI();
-      //  personalityDataList = new ArrayList<>();
+
 
         selectCategoryViewModelFactory = new SelectCategoryViewModelFactory(getApplication(), mApi);
         selectCategoryViewModel = ViewModelProviders.of(SelectCategoryActivity.this, selectCategoryViewModelFactory).get(SelectCategoryViewModel.class);
@@ -64,17 +63,15 @@ public class SelectCategoryActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                personalityDataList =  mApi.retrieveData();
+                personalityDataList = mApi.retrieveData();
                 personalityDataList.observeForever(new Observer<List<PersonalityData>>() {
                     @Override
                     public void onChanged(@Nullable List<PersonalityData> personalityData) {
-                        if(personalityData != null) {
-                            Intent intent = new Intent(SelectCategoryActivity.this, SavedPersonalityDataList.class);
-                            intent.putParcelableArrayListExtra("RetrievedData",(ArrayList) personalityData);
+                        if (personalityData != null) {
+                            Intent intent = new Intent(SelectCategoryActivity.this, SavedPersonalityDataActivity.class);
+                            intent.putParcelableArrayListExtra("RetrievedData", (ArrayList) personalityData);
                             startActivity(intent);
 
-//                            Toast.makeText(SelectCategoryActivity.this, personalityData.size(), Toast.LENGTH_SHORT).show();
-//                            Snackbar.make(view, String.valueOf(personalityDataList.toString()) + "is saved.", Snackbar.LENGTH_LONG);
                         } else {
                             Snackbar.make(view, "No data is Saved", Snackbar.LENGTH_LONG);
                         }
@@ -94,5 +91,8 @@ public class SelectCategoryActivity extends AppCompatActivity {
         recyclerView.setAdapter(selectCategoryAdapter);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

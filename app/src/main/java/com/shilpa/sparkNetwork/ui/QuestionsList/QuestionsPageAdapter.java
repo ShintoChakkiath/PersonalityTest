@@ -1,12 +1,10 @@
 package com.shilpa.sparkNetwork.ui.QuestionsList;
 
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.shilpa.sparkNetwork.repository.model.Question;
-import com.shilpa.sparkNetwork.ui.QuestionsList.QuestionListFragment;
 
 import java.util.List;
 
@@ -19,11 +17,6 @@ public class QuestionsPageAdapter extends FragmentStatePagerAdapter {
         super(fm);
         mQuestionCount = questionsCount;
         mQuestionsList = categorisedQuestions;
-    }
-
-    @Override
-    public Parcelable saveState() {
-        return super.saveState();
     }
 
     @Override

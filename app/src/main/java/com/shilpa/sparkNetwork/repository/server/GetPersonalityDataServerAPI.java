@@ -24,9 +24,7 @@ public class GetPersonalityDataServerAPI implements GetPersonalityDataServerInte
     private MutableLiveData<PersonalityData> data;
     private MutableLiveData<List<PersonalityData>> mPersonalityDataList;
 
-
     public GetPersonalityDataServerAPI() {
-       // this.questionsList = new MutableLiveData<List<SparkNetworkData>>();
         this.sparkNetworkData = new MutableLiveData<SparkNetworkData>();
     }
 
@@ -48,7 +46,7 @@ public class GetPersonalityDataServerAPI implements GetPersonalityDataServerInte
 
                 @Override
                 public void onFailure(Call<SparkNetworkData> call, Throwable t) {
-                    Log.d("GetPersonalityTestData","OnFailure");
+                    Log.d("GetPersonalityTestData", "OnFailure");
                 }
             });
         }
@@ -63,14 +61,13 @@ public class GetPersonalityDataServerAPI implements GetPersonalityDataServerInte
         return false;
     }
 
-    public void saveOptions(PersonalityData personalityData){
+    public void saveOptions(PersonalityData personalityData) {
         data = new MutableLiveData<>();
-        localAPI = new PersonalityDataLocalAPI(PersonalityDataApp.getApp().getDataBase().personalityDataDao(),data);
+        localAPI = new PersonalityDataLocalAPI(PersonalityDataApp.getApp().getDataBase().personalityDataDao(), data);
         localAPI.saveOptionToDatabase(personalityData);
-
     }
 
-    public LiveData<List<PersonalityData>> retrieveData(){
+    public LiveData<List<PersonalityData>> retrieveData() {
         mPersonalityDataList = new MutableLiveData<>();
         localAPI = new PersonalityDataLocalAPI(PersonalityDataApp.getApp().getDataBase().personalityDataDao(), data);
         LiveData<List<PersonalityData>> retrievedData = localAPI.retrievePersonalityDataFromDatabase();

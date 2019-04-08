@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shilpa.sparkNetwork.R;
 import com.shilpa.sparkNetwork.repository.local.PersonalityData;
@@ -24,30 +25,24 @@ import java.util.List;
 public class QuestionListFragment extends Fragment {
 
     private TextView questionTv;
-    private  RadioGroup radioGroup;
-    private List<Question> mQuestionsList;
+    private RadioGroup radioGroup;
     private RadioGroup mRadiogrp;
-    private RadioButton mRadiobtn;
-    private int mRadioBtnId;
-    private int fragNum;
-    String question;
-    ArrayList<String> optionsList;
-
-
-    PersonalityData mPersonalityData;
-    GetPersonalityDataServerAPI mApi;
+    private String question;
+    private ArrayList<String> optionsList;
+    private PersonalityData mPersonalityData;
+    private GetPersonalityDataServerAPI mApi;
 
     public static QuestionListFragment newInstance(int position, Question question) {
 
         QuestionListFragment questionListFragment = new QuestionListFragment();
         Bundle bundle = new Bundle();
 
-        bundle.putString("Question",question.getQuestion());
+        bundle.putString("Question", question.getQuestion());
 
         List<String> options = question.getQuestionType().getOptions();
         bundle.putStringArrayList("Options", (ArrayList<String>) options);
 
-        bundle.putInt("FragmentPos",position);
+        bundle.putInt("FragmentPos", position);
 
         questionListFragment.setArguments(bundle);
         return questionListFragment;
@@ -65,29 +60,27 @@ public class QuestionListFragment extends Fragment {
 
         mApi = new GetPersonalityDataServerAPI();
 
-        if(savedInstanceState==null) {
+        if (savedInstanceState == null) {
 
-        Bundle bundle = getArguments();
+            Bundle bundle = getArguments();
 
-        question = bundle.getString("Question");
-        optionsList = bundle.getStringArrayList("Options");
-        }
-        else
-        {
+            question = bundle.getString("Question");
+            optionsList = bundle.getStringArrayList("Options");
+        } else {
             question = savedInstanceState.getString("Question");
             optionsList = savedInstanceState.getStringArrayList("Options");
         }
 
         questionTv.setText(question);
-        addRadioButtonOptions(swipeView,optionsList);
+        addRadioButtonOptions(swipeView, optionsList);
         return swipeView;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-                Bundle bundle = getArguments();
-        if(bundle!=null) {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
             outState.putString("Question", bundle.getString("Question"));
             outState.putStringArrayList("Options", bundle.getStringArrayList("Options"));
         }
@@ -97,16 +90,16 @@ public class QuestionListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-   }
+    }
 
-    private void addRadioButtonOptions(final View view,ArrayList<String> optionsList) {
+    private void addRadioButtonOptions(final View view, ArrayList<String> optionsList) {
         for (int row = 0; row < 1; row++) {
 
             mRadiogrp = new RadioGroup(getContext());
             mRadiogrp.setOrientation(LinearLayout.VERTICAL);
 
             for (int i = 0; i < optionsList.size(); i++) {
-                 RadioButton rdbtn = new RadioButton(getContext());
+                RadioButton rdbtn = new RadioButton(getContext());
                 rdbtn.setId(View.generateViewId());
                 rdbtn.setText(optionsList.get(i));
                 mRadiogrp.addView(rdbtn);
@@ -117,29 +110,22 @@ public class QuestionListFragment extends Fragment {
             mRadiogrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    int mRadiobtnId =group.getCheckedRadioButtonId();
-                    RadioButton selectedOptions = (RadioButton)view.findViewById(mRadiobtnId);
-                    Log.d("Selected  value is",selectedOptions.getText().toString());
+                    int mRadiobtnId = group.getCheckedRadioButtonId();
+                    RadioButton selectedOptions = (RadioButton) view.findViewById(mRadiobtnId);
+                    Log.d("Selected  value is", selectedOptions.getText().toString());
+                    Toast.makeText(getContext(), "Option is saved!", Toast.LENGTH_SHORT).show();
                     mPersonalityData.setQuestion(question);
                     mPersonalityData.setOption(selectedOptions.getText().toString());
                     mApi.saveOptions(mPersonalityData);
 
-
                 }
             });
-
-
         }
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-       // mViewModel = ViewModelProviders.of(this).get(QuestionListViewModel.class);
-        // TODO: Use the ViewModel
-
-//        questionViewsManagement = new QuestionViewsManagement(getContext());
-//        questionViewsManagement.saveFlagToSp(false);
 
     }
 }
